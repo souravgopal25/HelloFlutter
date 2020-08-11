@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 void main(){
   runApp(MaterialApp(
@@ -14,33 +15,39 @@ class HomePage extends StatelessWidget{
       appBar: AppBar(
         title:  Text("Hello Flutter"),
       ),
-      body: Container(
-        child: Center(
-          child: Container(
-            padding: const EdgeInsets.all(8),
-            alignment: Alignment.center,
-            width:100,
-            height: 100,
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                boxShadow: [BoxShadow(
-                  color: Colors.grey[400],
-                  blurRadius: 5,
-                  offset: Offset(2.0,10.0),
-                )],
-                color: Colors.teal,
-                gradient:LinearGradient(colors: [Colors.green,Colors.teal]) ),
-            child: Text("I am a Box",
-            textAlign: TextAlign.center,
-              style: TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-                fontSize: 20,
-              ),
+      body:Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Container(
+          color: Colors.black,
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height,
+          child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(8),
+                  width: 100,
+                  height: 100,
+                  color: Colors.green,
+                ),
+                Container(
+                  padding: const EdgeInsets.all(8),
+                  width: 100,
+                  height: 100,
+                  color: Colors.yellow,
+                ),
+                Container(
+                  padding: const EdgeInsets.all(8),
+                  width: 100,
+                  height: 100,
+                  color: Colors.red,
+                )
+              ],
             ),
-          ),
-        )
-      ),
+        ),
+      )
+
     );
   }
 
