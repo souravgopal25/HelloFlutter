@@ -1,9 +1,12 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
 void main(){
   runApp(MaterialApp(
     title: "Hello Flutter",
     home: HomePage(),
+    theme: ThemeData(
+      primarySwatch: Colors.cyan
+    ),
   ));
 
 }
@@ -15,39 +18,40 @@ class HomePage extends StatelessWidget{
       appBar: AppBar(
         title:  Text("Hello Flutter"),
       ),
-      body:Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Container(
-          color: Colors.black,
-          width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.height,
-          child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Container(
-                  padding: const EdgeInsets.all(8),
-                  width: 100,
-                  height: 100,
-                  color: Colors.green,
-                ),
-                Container(
-                  padding: const EdgeInsets.all(8),
-                  width: 100,
-                  height: 100,
-                  color: Colors.yellow,
-                ),
-                Container(
-                  padding: const EdgeInsets.all(8),
-                  width: 100,
-                  height: 100,
-                  color: Colors.red,
-                )
-              ],
+      body: Container(),
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children:<Widget> [
+            UserAccountsDrawerHeader(
+                accountName: Text("Sourav Sharma"),
+                accountEmail: Text("Souravgopal25@gmail.com"),
+                currentAccountPicture:CircleAvatar(
+                  backgroundImage: NetworkImage("https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=80"),
+                ) ,
             ),
+             
+            ListTile(leading: Icon(Icons.person),
+            title: Text("Account"),
+              subtitle: Text("Personal"),
+              trailing: Icon(Icons.edit),
+            ),
+            ListTile(leading: Icon(Icons.email),
+              title: Text("Email"),
+              subtitle: Text("***@gmail.com"),
+              trailing: Icon(Icons.send),
+            ),
+            ListTile(leading: Icon(Icons.confirmation_number),
+              title: Text("Ticket"),
+              trailing: Icon(Icons.shop),
+            )
+          ],
         ),
-      )
+      ),
+      floatingActionButton: FloatingActionButton(onPressed: (){},
+      child: Icon(Icons.edit),
 
+      ),
     );
   }
 
