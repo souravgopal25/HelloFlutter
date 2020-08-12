@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/drawer.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+
 class HomePage extends StatefulWidget{
   @override
   _HomePageState createState() => _HomePageState();
@@ -7,10 +11,13 @@ class HomePage extends StatefulWidget{
 class _HomePageState extends State<HomePage> {
   TextEditingController _nameController=TextEditingController();
   var myText="Email";
+  var url="https://jsonplaceholder.typicode.com/photos";
+  var data;
   @override
   void initState() {
 
     super.initState();
+    getData();
 
   }
   @override
@@ -22,87 +29,24 @@ class _HomePageState extends State<HomePage> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: SingleChildScrollView(
-          child: Card(
-
-            child: Column(
-              children: <Widget>[
-                Image.asset("assets/bg.jpeg",
-                  fit: BoxFit.cover,
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                Text(
-                    myText,
-                  style: TextStyle(fontSize: 25,fontWeight: FontWeight.bold),
-                ),
-                SizedBox(
-                  height: 20,
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: TextField(
-                    controller: _nameController,
-                      keyboardType: TextInputType.emailAddress,
-                      decoration: InputDecoration(
-                          border: OutlineInputBorder(),
-                          hintText: "Enter Your Mail ID ",
-                          labelText: "Email"
-
-                      )
-                  ),
-
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: TextField(
-                      keyboardType: TextInputType.text,
-                      maxLength: 10,
-                      obscureText: true,
-                      decoration: InputDecoration(
-                          border: OutlineInputBorder(),
-                          hintText: "Enter Your Password",
-                          labelText: "Password"
-
-                      )
-                  ),
-
-                )
-              ],
+        child: data!=null? ListView.builder(
+          itemBuilder: (context,index){
+            return
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: ListTile(
+                title: Text(data[index]["title"]),
+                subtitle: Text("ID : ${data[index]["id"]}"),
+                leading: Image.network(data[index]["url"]),
             ),
-          ),
+              );
+          },
+          itemCount:data.length,
+        ):Center(
+          child: CircularProgressIndicator(),
         ),
       ),
-      drawer: Drawer(
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children:<Widget> [
-            UserAccountsDrawerHeader(
-              accountName: Text("Sourav Sharma"),
-              accountEmail: Text("Souravgopal25@gmail.com"),
-              currentAccountPicture:CircleAvatar(
-                backgroundImage: NetworkImage("https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=80"),
-              ) ,
-            ),
-
-            ListTile(leading: Icon(Icons.person),
-              title: Text("Account"),
-              subtitle: Text("Personal"),
-              trailing: Icon(Icons.edit),
-            ),
-            ListTile(leading: Icon(Icons.email),
-              title: Text("Email"),
-              subtitle: Text("***@gmail.com"),
-              trailing: Icon(Icons.send),
-            ),
-            ListTile(leading: Icon(Icons.confirmation_number),
-              title: Text("Ticket"),
-              trailing: Icon(Icons.shop),
-            )
-          ],
-        ),
-      ),
+      drawer:MyDrawer(),
       floatingActionButton: FloatingActionButton(
         onPressed: (){
           myText=_nameController.text;
@@ -116,4 +60,13 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
+
+  void getData() async {
+    var res=await http.get(url);
+    data=jsonDecode(res.body);
+    setState(() {
+      
+    });
+  }
 }
+
